@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trhovisko.sk – Inzercia zadarmo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F2EB;
+    --surface: #FFFCF5;
+    --card: #FFFFFF;
+    --accent: #D85A30;
+    --accent-light: #FAECE7;
+    --accent-dark: #993C1D;
+    --text-primary: #1A1814;
+    --text-secondary: #6B6860;
+    --text-muted: #9E9C97;
+    --border: #E2DDD4;
+    --border-strong: #C8C2B8;
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    border-bottom: 1.5px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 20px;
+    padding: 14px 20px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px; font-weight: 800;
+    color: var(--accent);
+    text-decoration: none; white-space: nowrap;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text-primary); }
+  .search-bar {
+    flex: 1; display: flex;
+    background: var(--bg);
+    border: 1.5px solid var(--border-strong);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--accent); }
+  .search-bar input {
+    flex: 1; padding: 10px 14px;
+    font-family: inherit; font-size: 15px;
+    background: transparent; border: none; outline: none;
+    color: var(--text-primary);
+  }
+  .search-bar select {
+    padding: 10px 10px;
+    font-family: inherit; font-size: 14px;
+    background: var(--border); border: none;
+    border-left: 1.5px solid var(--border-strong);
+    outline: none; cursor: pointer;
+    color: var(--text-secondary);
+  }
+  .search-bar button {
+    padding: 10px 18px;
+    background: var(--accent); color: white;
+    border: none; cursor: pointer;
+    font-family: inherit; font-size: 15px; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .search-bar button:hover { background: var(--accent-dark); }
+  .btn-primary {
+    padding: 10px 18px;
+    background: var(--accent); color: white;
+    border: none; border-radius: 10px;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+  /* HERO STRIP */
+  .hero-strip {
+    background: var(--accent);
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 13px; color: rgba(255,255,255,0.9);
+  }
+  .hero-strip strong { color: white; }
+
+  /* LAYOUT */
+  .main {
+    max-width: 1200px; margin: 0 auto;
+    padding: 24px 20px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* SIDEBAR */
+  .sidebar { position: sticky; top: 80px; }
+  .sidebar-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .sidebar-title {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 12px 16px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cat-list { list-style: none; }
+  .cat-list li a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 16px;
+    font-size: 14px; color: var(--text-secondary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
+  }
+  .cat-list li:last-child a { border-bottom: none; }
+  .cat-list li a:hover, .cat-list li a.active {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+  .cat-list li a .cat-icon { font-size: 16px; margin-right: 8px; }
+  .cat-list li a .cat-count {
+    font-size: 12px; color: var(--text-muted);
+    background: var(--bg);
+    padding: 1px 7px; border-radius: 20px;
+  }
+  .cat-list li a.active .cat-count { background: white; color: var(--accent); }
+
+  /* FILTER SIDEBAR */
+  .filter-group { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .filter-group:last-child { border-bottom: none; }
+  .filter-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-primary); }
+  .filter-group input[type="number"],
+  .filter-group select {
+    width: 100%; padding: 8px 10px;
+    background: var(--bg); border: 1px solid var(--border-strong);
+    border-radius: 8px; font-family: inherit; font-size: 13px;
+    color: var(--text-primary); outline: none;
+  }
+  .price-range { display: flex; gap: 6px; align-items: center; }
+  .price-range span { font-size: 13px; color: var(--text-muted); }
+  .price-range input { flex: 1; }
+  .btn-filter {
+    width: 100%; padding: 9px;
+    background: var(--text-primary); color: white;
+    border: none; border-radius: 8px;
+    font-family: inherit; font-size: 14px; font-weight: 500;
+    cursor: pointer; margin-top: 4px;
+    transition: background 0.2s;
+  }
+  .btn-filter:hover { background: var(--accent); }
+
+  /* CONTENT AREA */
+  .content {}
+  .content-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .content-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--text-primary);
+  }
+  .content-header .meta { font-size: 13px; color: var(--text-muted); }
+  .sort-select {
+    padding: 7px 12px;
+    background: var(--card); border: 1px solid var(--border-strong);
+    border-radius: 8px; font-family: inherit; font-size: 13px;
+    color: var(--text-secondary); outline: none; cursor: pointer;
+  }
+
+  /* AD GRID */
+  .ads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  /* AD CARD */
+  .ad-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .ad-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(216,90,48,0.12);
+  }
+  .ad-img {
+    width: 100%; height: 160px;
+    object-fit: cover;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+  }
+  .ad-img.no-img { background: var(--bg); }
+  .ad-body { padding: 12px; }
+  .ad-price {
+    font-size: 18px; font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .ad-price .price-unit { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+  .ad-title {
+    font-size: 14px; font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .ad-meta {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+  .ad-location::before { content: '📍'; font-size: 11px; margin-right: 2px; }
+  .ad-date { margin-left: auto; }
+  .ad-badge {
+    position: absolute; top: 10px; left: 10px;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px;
+  }
+  .badge-top { background: var(--accent); color: white; }
+  .badge-new { background: var(--green); color: white; }
+  .fav-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: white; border: none;
+    width: 30px; height: 30px; border-radius: 50%;
+    font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+  }
+  .fav-btn:hover { transform: scale(1.2); }
+  .fav-btn.active { color: var(--accent); }
+
+  /* PAGINATION */
+  .pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 6px; margin-top: 32px;
+  }
+  .page-btn {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px; background: var(--card);
+    font-size: 14px; cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+  }
+  .page-btn:hover, .page-btn.active {
+    background: var(--accent); color: white;
+    border-color: var(--accent);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,24,20,0.6);
+    z-index: 200; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card);
+    border-radius: 16px;
+    width: 100%; max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+    animation: modalIn 0.25s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--bg); border: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 18px; cursor: pointer; color: var(--text-secondary);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--border); }
+  .modal h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block; font-size: 13px; font-weight: 500;
+    color: var(--text-secondary); margin-bottom: 6px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 10px 14px;
+    background: var(--bg); border: 1.5px solid var(--border-strong);
+    border-radius: 10px; font-family: inherit; font-size: 14px;
+    color: var(--text-primary); outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .file-upload {
+    border: 2px dashed var(--border-strong);
+    border-radius: 10px; padding: 24px;
+    text-align: center; cursor: pointer;
+    background: var(--bg);
+    transition: border-color 0.2s;
+  }
+  .file-upload:hover { border-color: var(--accent); }
+  .file-upload-icon { font-size: 32px; margin-bottom: 8px; }
+  .file-upload p { font-size: 13px; color: var(--text-muted); }
+  .btn-submit {
+    width: 100%; padding: 13px;
+    background: var(--accent); color: white;
+    border: none; border-radius: 10px;
+    font-family: inherit; font-size: 16px; font-weight: 600;
+    cursor: pointer; margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--accent-dark); }
+
+  /* AD DETAIL MODAL */
+  .detail-img {
+    width: 100%; height: 220px;
+    background: var(--bg); border-radius: 10px;
+    margin-bottom: 16px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 72px;
+  }
+  .detail-price {
+    font-size: 28px; font-weight: 700;
+    color: var(--accent); margin-bottom: 6px;
+  }
+  .detail-title {
+    font-size: 20px; font-weight: 600;
+    margin-bottom: 12px; line-height: 1.3;
+  }
+  .detail-desc {
+    font-size: 14px; color: var(--text-secondary);
+    line-height: 1.7; margin-bottom: 16px;
+  }
+  .detail-info {
+    background: var(--bg); border-radius: 10px;
+    padding: 14px 16px; margin-bottom: 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .detail-info-item label {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--text-muted);
+    display: block; margin-bottom: 2px;
+  }
+  .detail-info-item span { font-size: 14px; font-weight: 500; }
+  .contact-box {
+    background: var(--green-light);
+    border: 1px solid rgba(29,158,117,0.2);
+    border-radius: 10px; padding: 16px;
+    text-align: center;
+  }
+  .contact-box p { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; }
+  .btn-contact {
+    display: inline-block; padding: 11px 28px;
+    background: var(--green); color: white;
+    border: none; border-radius: 10px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer; width: 100%;
+    transition: background 0.2s;
+  }
+  .btn-contact:hover { background: #0F6E56; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--text-primary); color: white;
+    padding: 12px 20px; border-radius: 10px;
+    font-size: 14px; font-weight: 500;
+    z-index: 999; opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateX(-50%) translateY(10px);
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1; transform: translateX(-50%) translateY(0);
+  }
+
+  /* EMPTY */
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+    color: var(--text-muted);
+  }
+  .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 15px; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .ads-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* AUTH */
+  .auth-btns { display: flex; gap: 8px; align-items: center; }
+  .btn-outline {
+    padding: 9px 16px;
+    background: transparent; color: var(--text-primary);
+    border: 1.5px solid var(--border-strong); border-radius: 10px;
+    font-family: inherit; font-size: 14px; font-weight: 500;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { background: var(--bg); border-color: var(--accent); color: var(--accent); }
+
+  /* USER DROPDOWN */
+  .user-menu { position: relative; }
+  .user-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent); color: white;
+    border: none; font-family: inherit; font-size: 14px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.2s;
+  }
+  .user-avatar:hover { opacity: 0.85; }
+  .user-dropdown {
+    display: none; position: absolute; right: 0; top: 44px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; min-width: 200px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 200; overflow: hidden;
+  }
+  .user-dropdown.open { display: block; }
+  .user-dropdown-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .user-dropdown-header strong { display: block; font-size: 14px; }
+  .user-dropdown-header span { font-size: 12px; color: var(--text-muted); }
+  .user-dropdown a {
+    display: block; padding: 10px 16px;
+    font-size: 14px; color: var(--text-secondary);
+    text-decoration: none; cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .user-dropdown a:last-child { border-bottom: none; }
+  .user-dropdown a:hover { background: var(--bg); color: var(--text-primary); }
+  .user-dropdown a.danger:hover { color: var(--accent); }
+
+  /* AUTH MODAL TABS */
+  .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1.5px solid var(--border); }
+  .auth-tab {
+    flex: 1; padding: 10px; text-align: center;
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    color: var(--text-muted); border-bottom: 2.5px solid transparent;
+    margin-bottom: -1.5px; transition: color 0.2s, border-color 0.2s;
+  }
+  .auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .auth-panel { display: none; }
+  .auth-panel.active { display: block; }
+  .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .form-error { font-size: 13px; color: var(--accent); margin-top: 8px; display: none; }
+  .form-error.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="hero-strip">
+  Inzercia <strong>zadarmo</strong> pre každého — pridaj inzerát za 30 sekúnd 🚀
+</div>
+
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">Trh<span>ovisko</span>.sk</a>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Hľadaj čo ťa zaujíma..." />
+      <select id="searchCategory">
+        <option value="">Všetky kategórie</option>
+        <option>Auto-moto</option>
+        <option>Elektro</option>
+        <option>Nehnuteľnosti</option>
+        <option>Oblečenie</option>
+        <option>Dom a záhrada</option>
+        <option>Šport a hobby</option>
+        <option>Zvieratá</option>
+        <option>Práca</option>
+      </select>
+      <button onclick="doSearch()">Hľadaj</button>
+    </div>
+    <div class="auth-btns" id="authBtns">
+      <button class="btn-outline" onclick="openAuth('login')">Prihlásiť sa</button>
+      <button class="btn-primary" onclick="openAuth('register')">Registrovať</button>
+    </div>
+    <div class="user-menu" id="userMenu" style="display:none;">
+      <button class="user-avatar" id="userAvatarBtn" onclick="toggleUserDropdown()"></button>
+      <div class="user-dropdown" id="userDropdown">
+        <div class="user-dropdown-header">
+          <strong id="ddName"></strong>
+          <span id="ddEmail"></span>
+        </div>
+        <a onclick="openAddModal(); toggleUserDropdown()">＋ Pridať inzerát</a>
+        <a onclick="showMyAds(); toggleUserDropdown()">📋 Moje inzeráty</a>
+        <a class="danger" onclick="logout()">🚪 Odhlásiť sa</a>
+      </div>
+    </div>
+    <button class="btn-primary" id="addAdBtn" onclick="openAddModal()" style="display:none;">＋ Pridať inzerát</button>
+  </div>
+</header>
+
+<main class="main">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Kategórie</div>
+      <ul class="cat-list" id="catList">
+        <li><a class="active" onclick="filterCat('')">🏠 Všetky kategórie <span class="cat-count" id="cnt-all">24</span></a></li>
+        <li><a onclick="filterCat('Auto-moto')">🚗 Auto-moto <span class="cat-count">5</span></a></li>
+        <li><a onclick="filterCat('Elektro')">💻 Elektro <span class="cat-count">6</span></a></li>
+        <li><a onclick="filterCat('Nehnuteľnosti')">🏡 Nehnuteľnosti <span class="cat-count">2</span></a></li>
+        <li><a onclick="filterCat('Oblečenie')">👗 Oblečenie <span class="cat-count">4</span></a></li>
+        <li><a onclick="filterCat('Dom a záhrada')">🌱 Dom a záhrada <span class="cat-count">3</span></a></li>
+        <li><a onclick="filterCat('Šport a hobby')">⚽ Šport a hobby <span class="cat-count">2</span></a></li>
+        <li><a onclick="filterCat('Zvieratá')">🐾 Zvieratá <span class="cat-count">2</span></a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Filtrovať</div>
+      <div class="filter-group">
+        <div class="filter-label">Cena (€)</div>
+        <div class="price-range">
+          <input type="number" id="priceMin" placeholder="od" min="0" />
+          <span>–</span>
+          <input type="number" id="priceMax" placeholder="do" min="0" />
+        </div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-label">Lokalita</div>
+        <select id="filterLocation">
+          <option value="">Celé Slovensko</option>
+          <option>Bratislava</option>
+          <option>Košice</option>
+          <option>Prešov</option>
+          <option>Žilina</option>
+          <option>Banská Bystrica</option>
+          <option>Nitra</option>
+          <option>Trnava</option>
+          <option>Trenčín</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <button class="btn-filter" onclick="applyFilters()">Použiť filter</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <section class="content">
+    <div class="content-header">
+      <div>
+        <h2 id="contentTitle">Všetky inzeráty</h2>
+        <div class="meta" id="contentMeta">Zobrazených 24 inzerátov</div>
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="sortAds()">
+        <option value="newest">Najnovšie</option>
+        <option value="price_asc">Cena: od najlacnejšej</option>
+        <option value="price_desc">Cena: od najdrahšej</option>
+      </select>
+    </div>
+
+    <div class="ads-grid" id="adsGrid"></div>
+
+    <div class="pagination" id="pagination">
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">›</button>
+    </div>
+  </section>
+</main>
+
+<!-- ADD AD MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addModal')">✕</button>
+    <h2>Pridať inzerát</h2>
+
+    <div class="form-group">
+      <label class="form-label">Nadpis inzerátu *</label>
+      <input class="form-input" id="newTitle" placeholder="napr. iPhone 14 Pro, 128GB, nový" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Kategória *</label>
+        <select class="form-select" id="newCategory">
+          <option value="">– Vyber –</option>
+          <option>Auto-moto</option>
+          <option>Elektro</option>
+          <option>Nehnuteľnosti</option>
+          <option>Oblečenie</option>
+          <option>Dom a záhrada</option>
+          <option>Šport a hobby</option>
+          <option>Zvieratá</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cena (€) *</label>
+        <input class="form-input" id="newPrice" type="number" placeholder="0" min="0" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Lokalita</label>
+        <select class="form-select" id="newLocation">
+          <option>Bratislava</option>
+          <option>Košice</option>
+          <option>Prešov</option>
+          <option>Žilina</option>
+          <option selected>Banská Bystrica</option>
+          <option>Nitra</option>
+          <option>Trnava</option>
+          <option>Trenčín</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Stav</label>
+        <select class="form-select" id="newCondition">
+          <option>Nový</option>
+          <option>Ako nový</option>
+          <option>Použitý – dobrý stav</option>
+          <option>Použitý – opotrebovaný</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Popis</label>
+      <textarea class="form-textarea" id="newDesc" placeholder="Opíšte predmet, jeho stav, dôvod predaja..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefón</label>
+      <input class="form-input" id="newPhone" placeholder="+421 9XX XXX XXX" />
+    </div>
+    <div class="form-group">
+      <div class="file-upload" onclick="showToast('Upload obrázkov bude dostupný čoskoro 📸')">
+        <div class="file-upload-icon">📷</div>
+        <p>Klikni pre pridanie fotiek (max. 8)</p>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="submitAd()">Zverejniť inzerát zadarmo</button>
+  </div>
+</div>
+
+<!-- AD DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal" style="max-width:440px;">
+    <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Prihlásiť sa</div>
+      <div class="auth-tab" id="tabRegister" onclick="switchTab('register')">Registrovať</div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-panel active" id="panelLogin">
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input class="form-input" id="loginEmail" type="email" placeholder="tvoj@email.sk" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Heslo</label>
+        <input class="form-input" id="loginPass" type="password" placeholder="••••••••" />
+      </div>
+      <div class="form-error" id="loginError"></div>
+      <button class="btn-submit" onclick="doLogin()">Prihlásiť sa</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-panel" id="panelRegister">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Meno</label>
+          <input class="form-input" id="regName" placeholder="Ján" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priezvisko</label>
+          <input class="form-input" id="regSurname" placeholder="Novák" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input class="form-input" id="regEmail" type="email" placeholder="tvoj@email.sk" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefón</label>
+        <input class="form-input" id="regPhone" placeholder="+421 9XX XXX XXX" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Heslo</label>
+        <input class="form-input" id="regPass" type="password" placeholder="min. 6 znakov" />
+        <div class="form-hint">Minimálne 6 znakov</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Zopakuj heslo</label>
+        <input class="form-input" id="regPass2" type="password" placeholder="••••••••" />
+      </div>
+      <div class="form-error" id="regError"></div>
+      <button class="btn-submit" onclick="doRegister()">Vytvoriť účet zadarmo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const EMOJIS = {
+  'Auto-moto': '🚗',
+  'Elektro': '💻',
+  'Nehnuteľnosti': '🏡',
+  'Oblečenie': '👗',
+  'Dom a záhrada': '🌱',
+  'Šport a hobby': '⚽',
+  'Zvieratá': '🐾',
+};
+
+let ads = [
+  { id:1, title:'iPhone 14 Pro 256GB – fialová, kompletná výbava', price:820, category:'Elektro', location:'Bratislava', date:'dnes', desc:'Predám iPhone 14 Pro 256GB vo farbe Deep Purple. Kúpený v SR, záručný list, originálne príslušenstvo. Bez škrabancov, displej perfektný. Batéria 94%.', condition:'Ako nový', phone:'+421 910 123 456', top:true },
+  { id:2, title:'Škoda Octavia III 2.0 TDI DSG, rok 2018', price:16500, category:'Auto-moto', location:'Košice', date:'dnes', desc:'Predaj Škoda Octavia Combi 2.0 TDI 110kW DSG. Servisovaná v autorizovanom servise. Odpočet DPH. Tažné zariadenie, panorama, navi.', condition:'Použitý – dobrý stav', phone:'+421 903 456 789', badge:'TOP' },
+  { id:3, title:'MacBook Air M2 13" – Space Grey', price:1099, category:'Elektro', location:'Žilina', date:'včera', desc:'MacBook Air M2, 8GB RAM, 256GB SSD. Zakúpený v Alze. Záruka do marca 2026. Používaný opatrne, bez poškodenia.', condition:'Ako nový', phone:'+421 944 111 222' },
+  { id:4, title:'2-izbový byt, Banská Bystrica centrum', price:142000, category:'Nehnuteľnosti', location:'Banská Bystrica', date:'včera', desc:'Predaj 2-izbového bytu v centre Banskej Bystrice. 3. poschodie, výťah, parkovanie v dvore. Kompletná rekonštrukcia 2022.', condition:'–', phone:'+421 905 789 012', new:true },
+  { id:5, title:'Samsung QLED 4K 55" – TOP stav', price:480, category:'Elektro', location:'Nitra', date:'2 dni', desc:'TV Samsung QLED 55Q70A. Smart TV, HDR, WiFi, 4x HDMI. Kupovaný pred 2 rokmi, plne funkčný, s diaľkovým ovládačom.', condition:'Použitý – dobrý stav', phone:'+421 911 333 444' },
+  { id:6, title:'Dámska zimná bunda Zara – veľ. M', price:35, category:'Oblečenie', location:'Trnava', date:'3 dni', desc:'Predám teplú zimnú bundu Zara, khaki farba, veľkosť M. Nosená 1 sezónu, bez poškodenia. Možná výmena.', condition:'Ako nový', phone:'+421 918 555 666' },
+  { id:7, title:'Záhradný altánok 3x3m, kovový rám', price:289, category:'Dom a záhrada', location:'Prešov', date:'3 dni', desc:'Predám záhradný altánok 3x3m s kovovou konštrukciou a UV plachtou. Použitý 1 leto, v dobrom stave. Rozobratý, ľahká montáž.', condition:'Použitý – dobrý stav', phone:'+421 907 777 888' },
+  { id:8, title:'MTB bicykel Trek Marlin 7, veľ. M', price:650, category:'Šport a hobby', location:'Bratislava', date:'4 dni', desc:'Predám horský bicykel Trek Marlin 7, hydraulické kotúčové brzdy, 21 rýchlostí. Kúpený 2022, jazdený sezónne.', condition:'Použitý – dobrý stav', phone:'+421 912 999 000' },
+  { id:9, title:'Golden Retriever šteniatka – 8 týždňov', price:600, category:'Zvieratá', location:'Banská Bystrica', date:'5 dní', desc:'Predám šteniatka Golden Retriever. Odchované v rodinnom prostredí, zaočkované, odčervené. Pes/suka. Cena 600€/ks.', condition:'–', phone:'+421 904 222 333', new:true },
+  { id:10, title:'Nike Air Max 270 – veľ. 42, nové', price:75, category:'Oblečenie', location:'Košice', date:'5 dní', desc:'Predám nové tenisky Nike Air Max 270, veľkosť 42. Kúpené ako darček, nevyhovuje veľkosť. Originálna krabica.', condition:'Nový', phone:'+421 921 444 555' },
+  { id:11, title:'Elektrická kolobežka Xiaomi Pro 2', price:320, category:'Elektro', location:'Žilina', date:'týždeň', desc:'Predám elektrickú kolobežku Xiaomi Mi Electric Scooter Pro 2. Dojazd 45km, max. 25km/h. Servisovaná, bez poškodenia.', condition:'Použitý – dobrý stav', phone:'+421 915 666 777' },
+  { id:12, title:'Domček pre psíka + matrác', price:45, category:'Zvieratá', location:'Nitra', date:'týždeň', desc:'Predám plastový domček pre stredného psa + ortopedický matrác. Rozmer 65x50cm. Čistý, bez zápahu.', condition:'Použitý – dobrý stav', phone:'+421 908 888 999' },
+  { id:13, title:'Záhradné náradia – lopata, vidly, motyky', price:30, category:'Dom a záhrada', location:'Trnava', date:'týždeň', desc:'Predám sadu záhradného náradia: lopata, vidly, 2x motyky, hrabľe. Všetko funkčné. Možnosť predaja aj jednotlivo.', condition:'Použitý – opotrebovaný', phone:'+421 903 100 200' },
+  { id:14, title:'PlayStation 5 Disc Edition, 2 ovládače', price:480, category:'Elektro', location:'Bratislava', date:'2 týždne', desc:'Predám PS5 Disk edition + 2 ovládače (biely + čierny) + 3 hry. Vo výbornom stave, doma nesafbovaná.', condition:'Ako nový', phone:'+421 911 200 300', top:true },
+  { id:15, title:'Dámske šaty H&M – letné, mix S/M', price:15, category:'Oblečenie', location:'Prešov', date:'2 týždne', desc:'Predám balíček letných šiat H&M, 5 kusov, veľkosť S/M. Nosené, ale v dobrom stave. Fotky na vyžiadanie.', condition:'Použitý – dobrý stav', phone:'+421 944 300 400' },
+  { id:16, title:'Ford Focus 1.5 EcoBoost, 2019', price:13900, category:'Auto-moto', location:'Nitra', date:'2 týždne', desc:'Predám Ford Focus ST-Line 1.5 EcoBoost 150k. Servisovaná história, zimné + letné pneu, kamera, PDC.', condition:'Použitý – dobrý stav', phone:'+421 905 400 500' },
+];
+
+let filteredAds = [...ads];
+let favorites = new Set();
+
+function renderAds(list) {
+  const grid = document.getElementById('adsGrid');
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>Žiadne inzeráty nenájdené</p></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(ad => `
+    <div class="ad-card" onclick="openDetail(${ad.id})">
+      ${ad.top ? '<span class="ad-badge badge-top">TOP</span>' : ''}
+      ${ad.new ? '<span class="ad-badge badge-new">NOVÝ</span>' : ''}
+      <button class="fav-btn ${favorites.has(ad.id) ? 'active' : ''}" onclick="toggleFav(event,${ad.id})" title="Obľúbené">
+        ${favorites.has(ad.id) ? '❤️' : '🤍'}
+      </button>
+      <div class="ad-img no-img">${EMOJIS[ad.category] || '📦'}</div>
+      <div class="ad-body">
+        <div class="ad-price">${ad.price === 0 ? 'Zadarmo' : ad.price.toLocaleString('sk-SK') + ' €'} <span class="price-unit">${ad.category === 'Nehnuteľnosti' ? '' : ''}</span></div>
+        <div class="ad-title">${ad.title}</div>
+        <div class="ad-meta">
+          <span class="ad-location">${ad.location}</span>
+          <span class="ad-date">${ad.date}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('contentMeta').textContent = `Zobrazených ${list.length} inzerátov`;
+}
+
+function openDetail(id) {
+  const ad = ads.find(a => a.id === id);
+  if (!ad) return;
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-img">${EMOJIS[ad.category] || '📦'}</div>
+    <div class="detail-price">${ad.price === 0 ? 'Zadarmo' : ad.price.toLocaleString('sk-SK') + ' €'}</div>
+    <div class="detail-title">${ad.title}</div>
+    <div class="detail-info">
+      <div class="detail-info-item"><label>Kategória</label><span>${ad.category}</span></div>
+      <div class="detail-info-item"><label>Lokalita</label><span>${ad.location}</span></div>
+      <div class="detail-info-item"><label>Stav</label><span>${ad.condition}</span></div>
+      <div class="detail-info-item"><label>Pridané</label><span>${ad.date}</span></div>
+    </div>
+    <div class="detail-desc">${ad.desc}</div>
+    <div class="contact-box">
+      <p>Máš záujem? Kontaktuj predávajúceho:</p>
+      <button class="btn-contact" onclick="showToast('📞 ${ad.phone}')">📞 Zobraziť telefón</button>
+    </div>
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function openAddModal() {
+  document.getElementById('addModal').classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function filterCat(cat) {
+  document.querySelectorAll('#catList a').forEach(a => a.classList.remove('active'));
+  event.target.closest('a').classList.add('active');
+  filteredAds = cat ? ads.filter(a => a.category === cat) : [...ads];
+  document.getElementById('contentTitle').textContent = cat || 'Všetky inzeráty';
+  renderAds(filteredAds);
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cat = document.getElementById('searchCategory').value;
+  filteredAds = ads.filter(a =>
+    (!q || a.title.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q)) &&
+    (!cat || a.category === cat)
+  );
+  document.getElementById('contentTitle').textContent = q ? `Výsledky pre „${q}"` : 'Všetky inzeráty';
+  renderAds(filteredAds);
+}
+
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+function applyFilters() {
+  const min = parseFloat(document.getElementById('priceMin').value) || 0;
+  const max = parseFloat(document.getElementById('priceMax').value) || Infinity;
+  const loc = document.getElementById('filterLocation').value;
+  filteredAds = ads.filter(a =>
+    a.price >= min && a.price <= max &&
+    (!loc || a.location === loc)
+  );
+  renderAds(filteredAds);
+  showToast('Filter aplikovaný ✓');
+}
+
+function sortAds() {
+  const val = document.getElementById('sortSelect').value;
+  if (val === 'price_asc') filteredAds.sort((a,b) => a.price - b.price);
+  else if (val === 'price_desc') filteredAds.sort((a,b) => b.price - a.price);
+  else filteredAds = [...ads].filter(a => filteredAds.some(f => f.id === a.id));
+  renderAds(filteredAds);
+}
+
+function toggleFav(e, id) {
+  e.stopPropagation();
+  if (favorites.has(id)) { favorites.delete(id); showToast('Odstránené z obľúbených'); }
+  else { favorites.add(id); showToast('Pridané do obľúbených ❤️'); }
+  renderAds(filteredAds);
+}
+
+function submitAd() {
+  const title = document.getElementById('newTitle').value.trim();
+  const price = parseFloat(document.getElementById('newPrice').value) || 0;
+  const cat = document.getElementById('newCategory').value;
+  const loc = document.getElementById('newLocation').value;
+  const desc = document.getElementById('newDesc').value.trim();
+  const phone = document.getElementById('newPhone').value.trim();
+  const cond = document.getElementById('newCondition').value;
+
+  if (!title || !cat) { showToast('⚠️ Vyplň nadpis a kategóriu'); return; }
+
+  const newAd = {
+    id: Date.now(), title, price, category: cat,
+    location: loc, date: 'práve teraz',
+    desc: desc || 'Bez popisu.', condition: cond, phone: phone || '–', new: true
+  };
+  ads.unshift(newAd);
+  filteredAds.unshift(newAd);
+  renderAds(filteredAds);
+  closeModal('addModal');
+  showToast('🎉 Inzerát bol zverejnený!');
+
+  // reset form
+  ['newTitle','newPrice','newDesc','newPhone'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('newCategory').selectedIndex = 0;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// AUTH SYSTEM
+let currentUser = null;
+
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem('trh_users') || '[]'); } catch { return []; }
+}
+function saveUsers(u) { localStorage.setItem('trh_users', JSON.stringify(u)); }
+function saveSession(u) { localStorage.setItem('trh_session', JSON.stringify(u)); }
+function clearSession() { localStorage.removeItem('trh_session'); }
+
+function loadSession() {
+  try {
+    const s = localStorage.getItem('trh_session');
+    if (s) { currentUser = JSON.parse(s); updateAuthUI(); }
+  } catch {}
+}
+
+function updateAuthUI() {
+  const loggedIn = !!currentUser;
+  document.getElementById('authBtns').style.display = loggedIn ? 'none' : 'flex';
+  document.getElementById('userMenu').style.display = loggedIn ? 'flex' : 'none';
+  document.getElementById('addAdBtn').style.display = loggedIn ? 'block' : 'none';
+  if (loggedIn) {
+    const initials = (currentUser.name[0] + (currentUser.surname[0] || '')).toUpperCase();
+    document.getElementById('userAvatarBtn').textContent = initials;
+    document.getElementById('ddName').textContent = currentUser.name + ' ' + currentUser.surname;
+    document.getElementById('ddEmail').textContent = currentUser.email;
+  }
+}
+
+function openAuth(tab) {
+  switchTab(tab);
+  document.getElementById('authModal').classList.add('open');
+}
+
+function switchTab(tab) {
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+  document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('panelRegister').classList.toggle('active', tab === 'register');
+  document.getElementById('loginError').classList.remove('show');
+  document.getElementById('regError').classList.remove('show');
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.classList.add('show');
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPass').value;
+  if (!email || !pass) return showError('loginError', 'Vyplň všetky polia.');
+  const users = getUsers();
+  const user = users.find(u => u.email === email && u.pass === btoa(pass));
+  if (!user) return showError('loginError', 'Nesprávny e-mail alebo heslo.');
+  currentUser = user;
+  saveSession(user);
+  updateAuthUI();
+  closeModal('authModal');
+  showToast('Vitaj späť, ' + user.name + '! 👋');
+}
+
+function doRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const surname = document.getElementById('regSurname').value.trim();
+  const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const phone = document.getElementById('regPhone').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const pass2 = document.getElementById('regPass2').value;
+  if (!name || !email || !pass) return showError('regError', 'Vyplň povinné polia.');
+  if (pass.length < 6) return showError('regError', 'Heslo musí mať aspoň 6 znakov.');
+  if (pass !== pass2) return showError('regError', 'Heslá sa nezhodujú.');
+  const users = getUsers();
+  if (users.find(u => u.email === email)) return showError('regError', 'Tento e-mail je už registrovaný.');
+  const newUser = { id: Date.now(), name, surname, email, phone, pass: btoa(pass) };
+  users.push(newUser);
+  saveUsers(users);
+  currentUser = newUser;
+  saveSession(newUser);
+  updateAuthUI();
+  closeModal('authModal');
+  showToast('Účet vytvorený! Vitaj, ' + name + '! 🎉');
+}
+
+function logout() {
+  currentUser = null;
+  clearSession();
+  updateAuthUI();
+  toggleUserDropdown();
+  showToast('Odhlásený ✓');
+}
+
+function toggleUserDropdown() {
+  document.getElementById('userDropdown').classList.toggle('open');
+}
+
+function requireLogin() {
+  if (currentUser) openAddModal();
+  else openAuth('login');
+}
+
+document.addEventListener('click', e => {
+  const menu = document.getElementById('userMenu');
+  if (menu && !menu.contains(e.target)) {
+    document.getElementById('userDropdown').classList.remove('open');
+  }
+});
+
+function showMyAds() {
+  if (!currentUser) return;
+  const myAds = ads.filter(a => a.userId === currentUser.id);
+  filteredAds = myAds;
+  document.getElementById('contentTitle').textContent = 'Moje inzeráty';
+  renderAds(filteredAds);
+}
+
+// patch submitAd to attach user
+const _origSubmit = submitAd;
+submitAd = function() {
+  if (!currentUser) { openAuth('login'); return; }
+  _origSubmit();
+  if (ads[0]) ads[0].userId = currentUser.id;
+};
+
+loadSession();
+// Init
+renderAds(filteredAds);
+</script>
+</body>
+</html>
